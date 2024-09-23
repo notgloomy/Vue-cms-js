@@ -45,3 +45,22 @@ export const ReqDeleteGoodsCategory = (id) => {
 export const ReqUpdateGoodsCategory = (id, queryList) => {
   return instance.patch(`/category/${id}`, queryList)
 }
+
+// 获取商品列表
+export const ReqGetgoodsList = (queryList) => {
+  return instance.post('/goods/list', queryList)
+}
+// 创建商品
+export const ReqCreategoods = (queryList) => {
+  return instance.post('/goods', queryList)
+}
+
+// 删除商品
+export const ReqDeletegoods = (id) => {
+  return instance.delete(`/goods/${id}`)
+}
+
+// 更新商品
+export const ReqUpdategoods = (id, queryList) => {
+  return instance.patch(`/goods/${id}`, queryList)
+}

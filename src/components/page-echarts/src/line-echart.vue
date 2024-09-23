@@ -4,10 +4,10 @@ import baseEchart from './base-echart.vue'
 
 const props = defineProps({
   labels: {
-    type: String
+    required: true
   },
   values: {
-    type: String
+    required: true
   }
 })
 const option = computed(() => {

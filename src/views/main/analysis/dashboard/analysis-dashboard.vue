@@ -46,12 +46,6 @@ const showGoodsAddressSale = computed(() => {
     value: item.count
   }))
 })
-
-console.log(
-  'showGoodsCategoryCount:',
-  showGoodsCategoryCount.value,
-  goodCategoryCount.value
-) // 确保这里打印的不是空数组
 </script>
 
 <template>
@@ -79,23 +73,27 @@ console.log(
   <!-- 图表模块 -->
   <el-row :gutter="20">
     <el-col :span="7">
-      <chartCard> <pieEchart :pieData="showGoodsCategoryCount" /> </chartCard
+      <chartCard :header="'商品数据统计的数量(饼图)'">
+        <pieEchart :pieData="showGoodsCategoryCount" /> </chartCard
     ></el-col>
     <el-col :span="10"
-      ><chartCard> <mapEchart :mapData="showGoodsAddressSale" /> </chartCard
+      ><chartCard :header="'不同城市的销量数据'">
+        <mapEchart :mapData="showGoodsAddressSale" /> </chartCard
     ></el-col>
     <el-col :span="7"
-      ><chartCard>
+      ><chartCard :header="'商品数据统计的数量(玫瑰图)'">
         <rosepieEchart :roseData="showGoodsCategoryCount" /> </chartCard
     ></el-col>
   </el-row>
 
   <el-row :gutter="20">
     <el-col :span="12"
-      ><chartCard> <lineEchart v-bind="showGoodsCategorySale" /> </chartCard
+      ><chartCard :header="'每个分类商品的销量'">
+        <lineEchart v-bind="showGoodsCategorySale" /> </chartCard
     ></el-col>
     <el-col :span="12"
-      ><chartCard> <barEchart v-bind="showGoodsCategoryFavor" /> </chartCard
+      ><chartCard :header="'每个分类商品的收藏数量'">
+        <barEchart v-bind="showGoodsCategoryFavor" /> </chartCard
     ></el-col>
   </el-row>
 </template>
