@@ -25,3 +25,23 @@ export const ReqGetgoodsCategoryFavor = () => {
 export const ReqGetgoodsAddressSale = () => {
   return instance.get('/goods/address/sale')
 }
+
+// 获取商品的类别
+export const ReqGetgoodsCategory = (queryList) => {
+  return instance.post('/category/list', queryList)
+}
+
+// 创建类别
+export const ReqCreateGoodsCategory = (queryList) => {
+  return instance.post('/category', queryList)
+}
+
+// 删除类别
+export const ReqDeleteGoodsCategory = (id) => {
+  return instance.delete(`/category/${id}`)
+}
+
+// 更新类别
+export const ReqUpdateGoodsCategory = (id, queryList) => {
+  return instance.patch(`/category/${id}`, queryList)
+}
