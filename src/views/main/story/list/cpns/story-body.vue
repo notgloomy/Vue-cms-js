@@ -1,105 +1,70 @@
 <script setup>
 import { formatTime } from '@/utils/formatTime.js'
-import { ReqDeleteDepartment } from '@/apis/system.js'
-import { useSystemStore } from '@/stores/modules/system.js'
+import { useStoryStore } from '@/stores/modules/story.js'
 import { useUserStore } from '@/stores/modules/user.js'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 
 const emits = defineEmits(['CreateClick', 'EditClick'])
-const systemStore = useSystemStore()
-const { departmentList, deTotal } = storeToRefs(systemStore)
+const storyStore = useStoryStore()
 const userStore = useUserStore()
-
-// 获取按钮控制权限
 const { permissions } = storeToRefs(userStore)
-const isCreate = permissions.value.find((item) =>
-  item.includes('system:department:create')
-)
-const isDelete = permissions.value.find((item) =>
-  item.includes('system:department:delete')
-)
+
+// 控制按钮的权限
 const isEdit = permissions.value.find((item) =>
-  item.includes('system:department:update')
+  item.includes('system:users:update')
 )
 const isSearch = permissions.value.find((item) =>
-  item.includes('system:department:query')
+  item.includes('system:users:query')
 )
 
 // 页面相关的逻辑
 const currentPage = ref(1)
 const pageSize = ref(10)
 const handleSizeChange = () => {
-  // handleGetDepartmentList()
+  handleGetStoryList()
 }
 const handleCurrentChange = () => {
-  // handleGetDepartmentList()
+  handleGetStoryList()
 }
 
-// 删除相关的逻辑
-const handlerDelete = async (id) => {
-  // 删除逻辑操作
-  await ReqDeleteDepartment(id)
-  // 重新请求新的数据
-  //  handleGetDepartmentList()
-}
-
-// 新增功能相关的逻辑
-const handlerCreateDepartment = () => {
-  console.log('新建用户')
-  emits('CreateClick')
-}
 // 编辑功能相关的逻辑
-const handlerEditDepartment = (formData) => {
-  emits('EditClick', formData)
+const handlerLookStory = (formDate) => {
+  emits('LookClick', formDate)
 }
 
 // 封装获取用户列表
-const handleGetDepartmentList = (searchForm = {}) => {
+const handleGetStoryList = (searchForm = {}) => {
   if (isSearch === false) return
   const size = pageSize.value
   const offset = (currentPage.value - 1) * 10
   const queryList = { size, offset }
   const endList = { ...queryList, ...searchForm }
-  systemStore.getDepartmentList(endList)
+  storyStore.getStoryList(endList)
 }
-handleGetDepartmentList()
+handleGetStoryList()
+const { storyList, storyCount } = storeToRefs(storyStore)
 
 // 向外暴露获取用户列表
-defineExpose({ handleGetDepartmentList })
+defineExpose({ handleGetStoryList })
 </script>
 
 <template>
   <div class="body">
     <div class="body-header">
-      <div class="headerText">部门列表</div>
-      <el-button type="primary" @click="handlerCreateDepartment" v-if="isCreate"
-        >新建部门</el-button
-      >
+      <div class="headerText">故事列表</div>
     </div>
     <div class="body-table">
-      <el-table :data="departmentList" border style="width: 100%">
+      <el-table :data="storyList" border style="width: 100%">
         <el-table-column type="selection" width="50" align="center" />
         <el-table-column type="index" label="序号" width="60" align="center" />
-        <el-table-column prop="name" label="部门名称" align="center" />
-        <el-table-column prop="leader" label="部门领导" align="center" />
-        <el-table-column prop="parentId" label="上级部门" align="center" />
-        <el-table-column
-          prop="createAt"
-          label="创建时间"
-          align="center"
-          width="200"
-        >
+        <el-table-column prop="title" label="用户名" align="center" />
+        <el-table-column prop="createAt" label="创建时间" align="center">
           <template #default="scope">
             {{ formatTime(scope.row.createAt) }}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="updateAt"
-          label="更新时间"
-          align="center"
-          width="200"
-        >
+        <el-table-column prop="updateAt" label="更新时间" align="center">
           <template #default="scope">
             {{ formatTime(scope.row.updateAt) }}
           </template>
@@ -107,26 +72,15 @@ defineExpose({ handleGetDepartmentList })
         <el-table-column label="操作" align="center">
           <template #default="scope">
             <el-button
-              icon="Edit"
+              icon="ChatLineSquare"
               size="small"
               type="primary"
               plain
               text
               style="padding: 0px"
-              @click="handlerEditDepartment(scope.row)"
+              @click="handlerLookStory(scope.row)"
               v-if="isEdit"
-              >编辑</el-button
-            >
-            <el-button
-              icon="Delete"
-              size="small"
-              type="danger"
-              plain
-              text
-              style="padding: 0px"
-              @click="handlerDelete(scope.row.id)"
-              v-if="isDelete"
-              >删除</el-button
+              >查看详情</el-button
             >
           </template>
         </el-table-column>
@@ -138,7 +92,7 @@ defineExpose({ handleGetDepartmentList })
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30]"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="deTotal"
+        :total="storyCount"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />

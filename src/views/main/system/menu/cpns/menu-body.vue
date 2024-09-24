@@ -34,7 +34,7 @@ defineExpose({ handleGetUserList })
 <template>
   <div class="body">
     <div class="body-header">
-      <div class="headerText">用户列表</div>
+      <div class="headerText">菜单列表</div>
       <el-button type="primary" v-if="isCreate">新建菜单</el-button>
     </div>
     <div class="body-table">

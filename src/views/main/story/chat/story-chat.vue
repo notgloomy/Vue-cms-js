@@ -1,7 +1,11 @@
-<script setup></script>
+<script setup>
+import storyBody from './cpns/story-body.vue'
+</script>
 
 <template>
-  <div>story-chat</div>
+  <div class="story-chat">
+    <storyBody />
+  </div>
 </template>
 
 <style scoped></style>

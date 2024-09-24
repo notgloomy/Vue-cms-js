@@ -45,12 +45,12 @@ const handlerDelete = async (id) => {
 }
 
 // 新增功能相关的逻辑
-const handlerCreateUser = () => {
+const handlerCreateRole = () => {
   console.log('新建用户')
   emits('CreateClick')
 }
 // 编辑功能相关的逻辑
-const handlerEditUser = (formDate) => {
+const handlerEditRole = (formDate) => {
   emits('EditClick', formDate)
 }
 
@@ -73,9 +73,9 @@ defineExpose({ handleGetRoleList })
 <template>
   <div class="body">
     <div class="body-header">
-      <div class="headerText">用户列表</div>
-      <el-button type="primary" @click="handlerCreateUser" v-if="isCreate"
-        >新建用户</el-button
+      <div class="headerText">角色列表</div>
+      <el-button type="primary" @click="handlerCreateRole" v-if="isCreate"
+        >新建角色</el-button
       >
     </div>
     <div class="body-table">
@@ -113,7 +113,7 @@ defineExpose({ handleGetRoleList })
               plain
               text
               style="padding: 0px"
-              @click="handlerEditUser(scope.row)"
+              @click="handlerEditRole(scope.row)"
               v-if="isEdit"
               >编辑</el-button
             >
